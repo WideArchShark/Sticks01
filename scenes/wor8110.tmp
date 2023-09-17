@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://qc0qvsym55c1"]
+
+[ext_resource type="PackedScene" uid="uid://dfu7mit1wm01q" path="res://scenes/matchstick.tscn" id="1_nxq8e"]
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_r7h6k"]
+[ext_resource type="Script" path="res://scenes/UI.gd" id="2_nruc1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sb72y"]
+albedo_color = Color(0, 0.411765, 0.215686, 1)
+
+[node name="world" type="Node3D"]
+script = ExtResource("1_r7h6k")
+matchstick_scene = ExtResource("1_nxq8e")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.941247, 0.33772, 0, -0.33772, 0.941247, 0, 2.25639, 4.54392)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 7, 0)
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("2_nruc1")
+
+[node name="MatchesRemaining" type="Label" parent="UI"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 26.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.509804)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 36
+text = "Matches Remaining: 0"
+horizontal_alignment = 1
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(10, 0.2, 10)
+material = SubResource("StandardMaterial3D_sb72y")
+
+[connection signal="match_count_changed" from="." to="UI" method="_on_world_match_count_changed"]
